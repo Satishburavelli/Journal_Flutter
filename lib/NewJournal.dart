@@ -21,6 +21,7 @@ class _NewJournal extends State<NewJournal> {
   final List<File> _images = [];
   String? _selectedLocation;
   LatLng? _selectedLatLng;
+  String? LocationName;
 
   String? _selectedMood;
   final _customerMoodController = TextEditingController();
@@ -63,6 +64,9 @@ class _NewJournal extends State<NewJournal> {
     await _saveJournalEntry(title, content, _images);
 
     // Navigator.pop(context);
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text("JournalSaved")),
+    );
     Navigator.pushNamed(context, '/MainScreen');
   }
 
@@ -81,11 +85,16 @@ class _NewJournal extends State<NewJournal> {
             (jsonDecode(entry['imagePaths']) as List<dynamic>).isNotEmpty
                 ? (jsonDecode(entry['imagePaths']) as List<dynamic>).first
                 : '',
+        locationName: entry['location']?['name'] ?? '',
+        latitude: entry[''],
+        location: entry['location']?['coordinates'] ?? '',
+        mood: entry['mood'] ?? '',
       );
     }).toList();
   }
 
-  Future<void> _saveJournalEntry(String title, String content, List<File> images) async {
+  Future<void> _saveJournalEntry(
+      String title, String content, List<File> images) async {
     try {
       List<String> imagePaths = [];
 
@@ -101,6 +110,8 @@ class _NewJournal extends State<NewJournal> {
       // if (_customerMoodController.text.isEmpty) {
       //   mood = _customerMoodController.text;
       // }
+      double? latitude, longitude;
+      String? locationName;
 
       String finalMood = '';
       // can be done using terenary operator
@@ -110,26 +121,36 @@ class _NewJournal extends State<NewJournal> {
         finalMood = _selectedMood ?? '';
       }
 
+      if (_selectedLocation != null) {
+        final locationParts = _selectedLocation!.split(',');
+        try {
+          latitude = double.parse(locationParts[0]);
+          longitude = double.parse(locationParts[1]);
+          locationName = _locationController.text;
+        } catch (e) {
+          print("Error parsing location");
+        }
+      }
       Map<String, dynamic> journalData = {
         'title': title,
         'content': content,
         'imagePaths': jsonEncode(imagePaths),
-        'locationName': _locationController.text,
-        // 'mood': _selectedMood ?? _customerMoodController.text,
-        // 'location': _locationController.text,
-        'location': _selectedLocation ?? '',
+        // 'locationName': _locationController.text,  // Correctly store the location name
+        'location': locationName,
+        'latitude':latitude,
+        'longitude':longitude,// Store lat/long
+        'name': _locationController.text,         // Store location name again
         'mood': finalMood,
       };
+
 
       final journalFile = File('${directory.path}/journals.json');
       List<dynamic> existingData = [];
 
       if (await journalFile.exists()) {
         final String fileContent = await journalFile.readAsString();
-        if(fileContent.trim().isNotEmpty){
+        if (fileContent.trim().isNotEmpty) {
           existingData = jsonDecode(fileContent);
-
-
         }
       }
       if (existingData is! List) {
@@ -148,7 +169,6 @@ class _NewJournal extends State<NewJournal> {
 
   Future<void> _getCurrentLocation() async {
     try {
-      // First check if location service is enabled
       bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
       if (!serviceEnabled) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -157,7 +177,6 @@ class _NewJournal extends State<NewJournal> {
         return;
       }
 
-      // Check permissions
       LocationPermission permission = await Geolocator.checkPermission();
       if (permission == LocationPermission.denied) {
         permission = await Geolocator.requestPermission();
@@ -172,26 +191,21 @@ class _NewJournal extends State<NewJournal> {
       if (permission == LocationPermission.deniedForever) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text(
-                "Location permissions are permanently denied. Please enable them in settings."),
+            content: Text("Location permissions are permanently denied."),
             duration: Duration(seconds: 3),
           ),
         );
         return;
       }
 
-      // Show loading indicator
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Getting location...")),
       );
 
-      // Get current position
       Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high,
-        timeLimit:const Duration(seconds: 5), // Add timeout
       );
 
-      // Get address from coordinates
       List<Placemark> placemarks = await placemarkFromCoordinates(
         position.latitude,
         position.longitude,
@@ -210,7 +224,6 @@ class _NewJournal extends State<NewJournal> {
           _locationController.text = locationName;
         });
 
-        // Show success message
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Location updated successfully")),
         );
@@ -222,6 +235,7 @@ class _NewJournal extends State<NewJournal> {
       );
     }
   }
+
 
   // void _showMapPicker() async {
   //   await showModalBottomSheet(

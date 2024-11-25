@@ -25,15 +25,15 @@
 18-->D:\ApplicationJournal\Journal_Flutter\android\app\src\main\AndroidManifest.xml:3:5-81
 18-->D:\ApplicationJournal\Journal_Flutter\android\app\src\main\AndroidManifest.xml:3:22-78
 19    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-19-->D:\ApplicationJournal\Journal_Flutter\android\app\src\debug\AndroidManifest.xml:14:5-80
-19-->D:\ApplicationJournal\Journal_Flutter\android\app\src\debug\AndroidManifest.xml:14:22-78
+19-->D:\ApplicationJournal\Journal_Flutter\android\app\src\debug\AndroidManifest.xml:16:5-80
+19-->D:\ApplicationJournal\Journal_Flutter\android\app\src\debug\AndroidManifest.xml:16:22-78
 20    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-20-->D:\ApplicationJournal\Journal_Flutter\android\app\src\debug\AndroidManifest.xml:15:5-79
-20-->D:\ApplicationJournal\Journal_Flutter\android\app\src\debug\AndroidManifest.xml:15:22-77
+20-->D:\ApplicationJournal\Journal_Flutter\android\app\src\debug\AndroidManifest.xml:17:5-79
+20-->D:\ApplicationJournal\Journal_Flutter\android\app\src\debug\AndroidManifest.xml:17:22-77
 21
 22    <uses-feature android:name="android.hardware.camera" />
-22-->D:\ApplicationJournal\Journal_Flutter\android\app\src\debug\AndroidManifest.xml:16:5-60
-22-->D:\ApplicationJournal\Journal_Flutter\android\app\src\debug\AndroidManifest.xml:16:19-57
+22-->D:\ApplicationJournal\Journal_Flutter\android\app\src\debug\AndroidManifest.xml:18:5-60
+22-->D:\ApplicationJournal\Journal_Flutter\android\app\src\debug\AndroidManifest.xml:18:19-57
 23
 24    <!--
 25     Required to query activities that can process text, see:

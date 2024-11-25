@@ -193,42 +193,42 @@ class _ViewJournalState extends State<ViewJournal> {
                                   const SizedBox(
                                     height: 8,
                                   ),
-                                  if (entry.mood != null &&
-                                      entry.mood!.isNotEmpty)
-                                    Row(
-                                      children: [
-                                        Icon(Icons.mood,
-                                            size: 16, color: Colors.grey[600]),
-                                        const SizedBox(width: 4),
-                                        Text(
-                                          "Mood: ${entry.mood!}",
-                                          style: TextStyle(
-                                            color: Colors.grey[600],
-                                            fontSize: 14,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  const SizedBox(height: 4),
-
-                                  // Add Location Display
-                                  if (entry.locationName != null &&
-                                      entry.locationName!.isNotEmpty) ...[
-                                    Row(
-                                      children: [
-                                        Icon(Icons.location_on,
-                                            size: 16, color: Colors.grey[600]),
-                                        const SizedBox(width: 4),
-                                        Text(
-                                          "Location: ${entry.locationName}",
-                                          style: TextStyle(
-                                            color: Colors.grey[600],
-                                            fontSize: 14,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 8),
+                                  // if (entry.mood != null &&
+                                  //     entry.mood!.isNotEmpty)
+                                  //   Row(
+                                  //     children: [
+                                  //       Icon(Icons.mood,
+                                  //           size: 16, color: Colors.grey[600]),
+                                  //       const SizedBox(width: 4),
+                                  //       Text(
+                                  //         "Mood: ${entry.mood!}",
+                                  //         style: TextStyle(
+                                  //           color: Colors.grey[600],
+                                  //           fontSize: 14,
+                                  //         ),
+                                  //       ),
+                                  //     ],
+                                  //   ),
+                                  // const SizedBox(height: 4),
+                                  //
+                                  // // Add Location Display
+                                  // if (entry.locationName != null &&
+                                  //     entry.locationName!.isNotEmpty) ...[
+                                  //   // Row(
+                                    //   children: [
+                                    //     // Icon(Icons.location_on,
+                                    //     //     size: 16, color: Colors.grey[600]),
+                                    //     // const SizedBox(width: 4),
+                                    //     // Text(
+                                    //     //   "Location: ${entry.locationName}",
+                                    //     //   style: TextStyle(
+                                    //     //     color: Colors.grey[600],
+                                    //     //     fontSize: 14,
+                                    //     //   ),
+                                    //     // ),
+                                    //   ],
+                                    // ),
+                                    // const SizedBox(height: 8),
                                     Row(
                                       children: [
                                         Expanded(
@@ -244,7 +244,7 @@ class _ViewJournalState extends State<ViewJournal> {
                                           ),
                                       ],
                                     ),
-                                  ],
+                                  // ],
                                 ],
                               ),
                             ),

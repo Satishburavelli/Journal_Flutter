@@ -1,4 +1,5 @@
 import 'package:latlong2/latlong.dart';
+import 'package:geocoding/geocoding.dart';
 import 'dart:convert';
 
 class JournalEntry {
@@ -17,10 +18,38 @@ class JournalEntry {
     required this.content,
     this.latitude,
     this.longitude,
-    this.locationName,
-    this.mood,
+    this.locationName = '',
+    this.mood = '',
     this.location,
   });
+
+  // Convert coordinates to address
+  static Future<String> getLocationName(LatLng location) async {
+    try {
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+        location.latitude,
+        location.longitude,
+      );
+      if (placemarks.isNotEmpty) {
+        Placemark place = placemarks[0];
+        String address = '';
+
+        if (place.locality?.isNotEmpty ?? false) {
+          address += place.locality!;
+        }
+        if (place.administrativeArea?.isNotEmpty ?? false) {
+          if (address.isNotEmpty) address += ', ';
+          address += place.administrativeArea!;
+        }
+
+        return address.isNotEmpty ? address : 'Unknown location';
+      }
+      return 'Unknown location';
+    } catch (e) {
+      print('Error getting address: $e');
+      return 'Location unavailable';
+    }
+  }
 
   Map<String, dynamic> toJson() => {
         'title': title,
@@ -30,6 +59,9 @@ class JournalEntry {
         'longitude': longitude,
         'locationName': locationName,
         'mood': mood,
+        'location': location != null
+            ? '${location!.latitude},${location!.longitude}'
+            : null,
       };
 
   factory JournalEntry.fromJson(Map<String, dynamic> json) {
@@ -63,6 +95,22 @@ class JournalEntry {
       imagePaths: imagePaths,
       locationName: json['locationName'] ?? '',
       mood: json['mood'] ?? '',
+      location: location,
+      latitude: json['latitude'],
+      longitude: json['longitude'],
+    );
+  }
+
+  // Create a copy of JournalEntry with updated locationName
+  JournalEntry copyWith({String? locationName}) {
+    return JournalEntry(
+      title: title,
+      content: content,
+      imagePaths: imagePaths,
+      latitude: latitude,
+      longitude: longitude,
+      locationName: locationName ?? this.locationName,
+      mood: mood,
       location: location,
     );
   }
