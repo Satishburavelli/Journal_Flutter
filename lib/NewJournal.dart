@@ -86,7 +86,7 @@ class _NewJournal extends State<NewJournal> {
                 ? (jsonDecode(entry['imagePaths']) as List<dynamic>).first
                 : '',
         locationName: entry['location']?['name'] ?? '',
-        latitude: entry[''],
+        latitude: entry['latitude'],
         location: entry['location']?['coordinates'] ?? '',
         mood: entry['mood'] ?? '',
       );
@@ -136,9 +136,9 @@ class _NewJournal extends State<NewJournal> {
         'content': content,
         'imagePaths': jsonEncode(imagePaths),
         // 'locationName': _locationController.text,  // Correctly store the location name
-        'location': locationName,
-        'latitude':latitude,
-        'longitude':longitude,// Store lat/long
+        'location': locationName?? '',
+        'latitude':latitude?? 0.0,
+        'longitude':longitude?? 0.0,// Store lat/long
         'name': _locationController.text,         // Store location name again
         'mood': finalMood,
       };

@@ -159,9 +159,9 @@ class _JourneyMapState extends State<JourneyMap> {
 
       List<LatLng> loadedLocations = journals
           .map((entry) {
-        if (entry['location'] != null && entry['location']!.isNotEmpty) {
-          final coord = entry['location'].split(',');
-          return LatLng(double.parse(coord[0]), double.parse(coord[1]));
+        if (entry['latitude'] != null && entry['longitude'] != null) {
+          return LatLng(double.parse(entry['latitude'].toString()),
+              double.parse(entry['longitude'].toString()));
         }
         return null;
       })
@@ -169,23 +169,11 @@ class _JourneyMapState extends State<JourneyMap> {
           .cast<LatLng>()
           .toList();
 
-      // List<LatLng> loadedLocations = journals
-      //     .map((entry) {
-      //       if (entry['location'] != null && entry['location']!.isNotEmpty) {
-      //         final coord = entry['location'].split(',');
-      //         return LatLng(double.parse(coord[0]), double.parse(coord[1]));
-      //       }
-      //       return null;
-      //     })
-      //     .where((loc) => loc != null)
-      //     .cast<LatLng>()
-      //     .toList();
-
       setState(() {
         _locations = loadedLocations;
       });
     } catch (e) {
-      print("Error loading");
+      print("Error loadinggg: $e");
     }
   }
 

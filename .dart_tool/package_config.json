@@ -302,6 +302,12 @@
       "languageVersion": "2.19"
     },
     {
+      "name": "insta_image_viewer",
+      "rootUri": "file:///C:/Users/vamsi/AppData/Local/Pub/Cache/hosted/pub.dev/insta_image_viewer-1.0.4",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "intl",
       "rootUri": "file:///C:/Users/vamsi/AppData/Local/Pub/Cache/hosted/pub.dev/intl-0.19.0",
       "packageUri": "lib/",
@@ -596,7 +602,7 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2024-11-25T13:51:31.613882Z",
+  "generated": "2024-11-25T20:55:00.309753Z",
   "generator": "pub",
   "generatorVersion": "3.5.4",
   "flutterRoot": "file:///C:/Users/vamsi/flutter_windows_3.24.4-stable/flutter",

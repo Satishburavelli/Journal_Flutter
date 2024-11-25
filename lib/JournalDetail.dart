@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:insta_image_viewer/insta_image_viewer.dart';
 import 'package:untitled/journal_entry.dart';
 import 'dart:io';
 import 'package:geocoding/geocoding.dart'; // Import geocoding package
@@ -68,19 +69,21 @@ class _JournalDetailState extends State<JournalDetail> {
         scrollDirection: Axis.horizontal, // Scroll horizontally
         itemCount: imagePaths.length,
         itemBuilder: (context, imageIndex) {
-          return Container(
-            width: 150, // Fixed width for each image
-            margin: const EdgeInsets.symmetric(
-                horizontal: 8.0), // Spacing between images
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: FileImage(File(imagePaths[imageIndex])),
-                fit: BoxFit.cover,
+          return InstaImageViewer(
+            child: Container(
+              width: 150, // Fixed width for each image
+              margin: const EdgeInsets.symmetric(
+                  horizontal: 8.0), // Spacing between images
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: FileImage(File(imagePaths[imageIndex])),
+                  fit: BoxFit.cover,
+                ),
+                borderRadius:
+                    BorderRadius.circular(8.0), // Optional: Rounded corners
+                border:
+                    Border.all(color: Colors.grey.shade300), // Optional: Border
               ),
-              borderRadius:
-                  BorderRadius.circular(8.0), // Optional: Rounded corners
-              border:
-                  Border.all(color: Colors.grey.shade300), // Optional: Border
             ),
           );
         },
