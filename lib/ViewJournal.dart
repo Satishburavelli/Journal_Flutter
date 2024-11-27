@@ -5,20 +5,17 @@ import 'journal_entry.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:untitled/JournalDetail.dart';
 
+
 class ViewJournal extends StatefulWidget {
   final List<JournalEntry>? entries;
   const ViewJournal({super.key, this.entries});
 
-  //
-  // final List<JournalEntry> entries;
-  // ViewJournal({required this.entries});
   @override
   State<ViewJournal> createState() => _ViewJournalState();
 }
 
 class _ViewJournalState extends State<ViewJournal> {
   List<JournalEntry> entries = [];
-  // bool _isLoading = true;
   @override
   void initState() {
     super.initState();
@@ -32,32 +29,22 @@ class _ViewJournalState extends State<ViewJournal> {
 
       if (await journalFile.exists()) {
         final String fileContent = await journalFile.readAsString();
-        print('File content: $fileContent'); // Debugging
+        print('File content: $fileContent');
         final List<dynamic> data = jsonDecode(fileContent);
 
         setState(() {
           entries = data.map((entry) {
-            // Handle both `imagePath` and `imagePaths`
             List<String> imagePaths = [];
             if (entry.containsKey('imagePaths')) {
               if (entry['imagePaths'] is String) {
                 imagePaths = List<String>.from(jsonDecode(entry['imagePaths']));
               }
-              // else if (entry.containsKey('imagePath') && entry['imagePath'] != null) {
-              //   imagePaths = [entry['imagePath']];
-              // }
               else {
                 imagePaths = List<String>.from(entry['imagePaths']);
               }
               print('Image paths for entry "${entry['title']}": $imagePaths');
-              // List<dynamic> imagePaths = entry['imagePaths'] is String
-              //     ? jsonDecode(entry['imagePaths'])
-              //     : entry['imagePaths'] as List<dynamic>;
-              // imagePath = imagePaths.isNotEmpty ? imagePaths.first : '';
+
             }
-            // else if (entry.containsKey('imagePath')) {
-            //   imagePath = entry['imagePath'] ?? '';
-            // }
 
             return JournalEntry(
               title: entry['title'] ?? 'Untitled',
@@ -65,6 +52,9 @@ class _ViewJournalState extends State<ViewJournal> {
               imagePaths: imagePaths,
               locationName: entry['location'] ?? '',
               mood: entry['mood'] ?? '',
+              date: entry['date'] != null
+                  ? DateTime.parse(entry['date'])
+                  : DateTime.now(),
             );
           }).toList();
         });
@@ -75,38 +65,6 @@ class _ViewJournalState extends State<ViewJournal> {
       print('Error loading journals: $e');
     }
   }
-
-  // Future<void> _loadJournals() async{
-  //   try{
-  //     final directory=await getApplicationDocumentsDirectory();
-  //     final journalFile=File('${directory.path}/journals.json');
-  //
-  //     if(await journalFile.exists()){
-  //       final String fileContent= await journalFile.readAsString();
-  //       final List<dynamic> data =jsonDecode(fileContent);
-  //
-  //       setState(() {
-  //          entries=data.map((entry){
-  //           List<dynamic> imagePaths=jsonDecode(entry['imagePaths']);
-  //           return JournalEntry(title: entry['title'], imagePath: imagePaths.isNotEmpty ? imagePaths.first : '', content: entry['content']);
-  //
-  //         }).toList();
-  //         // _isLoading=false;
-  //       });
-  //     }
-  //     // else{
-  //     //   setState(() {
-  //     //     _isLoading=false;
-  //     //   });
-  //     // }
-  //   }
-  //   catch(e){
-  //     print('Error loading journals : $e');
-  //     // setState(() {
-  //     //   _isLoading=false;
-  //     // });
-  //   }
-  // }
 
   Future<void> _deleteJournal(int index) async {
     setState(() {
@@ -183,68 +141,44 @@ class _ViewJournalState extends State<ViewJournal> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    entry.title,
-                                    style: const TextStyle(
-                                      fontSize: 19,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 8,
-                                  ),
-                                  // if (entry.mood != null &&
-                                  //     entry.mood!.isNotEmpty)
-                                  //   Row(
-                                  //     children: [
-                                  //       Icon(Icons.mood,
-                                  //           size: 16, color: Colors.grey[600]),
-                                  //       const SizedBox(width: 4),
-                                  //       Text(
-                                  //         "Mood: ${entry.mood!}",
-                                  //         style: TextStyle(
-                                  //           color: Colors.grey[600],
-                                  //           fontSize: 14,
-                                  //         ),
-                                  //       ),
-                                  //     ],
-                                  //   ),
-                                  // const SizedBox(height: 4),
-                                  //
-                                  // // Add Location Display
-                                  // if (entry.locationName != null &&
-                                  //     entry.locationName!.isNotEmpty) ...[
-                                  //   // Row(
-                                    //   children: [
-                                    //     // Icon(Icons.location_on,
-                                    //     //     size: 16, color: Colors.grey[600]),
-                                    //     // const SizedBox(width: 4),
-                                    //     // Text(
-                                    //     //   "Location: ${entry.locationName}",
-                                    //     //   style: TextStyle(
-                                    //     //     color: Colors.grey[600],
-                                    //     //     fontSize: 14,
-                                    //     //   ),
-                                    //     // ),
-                                    //   ],
-                                    // ),
-                                    // const SizedBox(height: 8),
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                            child: Text(entry.content.length >
-                                                    50
-                                                ? '${entry.content.length > 50}'
-                                                : entry.content)),
-                                        if (entry.content.length > 50)
-                                          Text(
-                                            'View More....',
-                                            style:
-                                                TextStyle(color: Colors.blue),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          entry.title,
+                                          style: const TextStyle(
+                                            fontSize: 19,
+                                            fontWeight: FontWeight.bold,
                                           ),
-                                      ],
-                                    ),
-                                  // ],
+                                        ),
+                                      ),
+                                      Text(
+                                        '${entry.date.day}/${entry.date.month}/${entry.date.year}',
+                                        style: TextStyle(
+                                          color: Colors.grey[600],
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 8,),
+
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                          child: Text(entry.content.length > 50
+                                              ? '${entry.content.length > 50}'
+                                              : entry.content)),
+                                      if (entry.content.length > 50)
+                                        Text(
+                                          'View More....',
+                                          style: TextStyle(color: Colors.blue),
+                                        ),
+                                    ],
+                                  ),
+
                                 ],
                               ),
                             ),
@@ -255,8 +189,7 @@ class _ViewJournalState extends State<ViewJournal> {
                               icon: const Icon(Icons.delete, color: Colors.red),
                             )
                           ],
-                          // title: Text(key,style: TextStyle(fontWeight: FontWeight.bold),),
-                          // subtitle: Text(value),
+
                         ),
                       ),
                     );

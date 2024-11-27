@@ -20,8 +20,9 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
-    _loadJournalEntries(); // Automatically load and update the count when the screen is initialized
+    _loadJournalEntries();
   }
+
   Future<void> _loadJournalEntries() async {
     try {
       final directory = await getApplicationDocumentsDirectory();
@@ -46,9 +47,13 @@ class _MainScreenState extends State<MainScreen> {
             return JournalEntry(
               title: entry['title'] ?? 'Untitled',
               content: entry['content'] ?? '',
-              imagePaths: List<String>.from(jsonDecode(entry['imagePaths'] ?? '[]')),
+              imagePaths:
+                  List<String>.from(jsonDecode(entry['imagePaths'] ?? '[]')),
               locationName: entry['locationName'],
               mood: entry['mood'],
+              date: entry['date'] != null
+                  ? DateTime.parse(entry['date'])
+                  : DateTime.now(),
             );
           }).toList();
           journalCount = journalEntries.length;
@@ -70,12 +75,11 @@ class _MainScreenState extends State<MainScreen> {
     }
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: const Text(
           'HomePage',
           style: TextStyle(
@@ -83,7 +87,6 @@ class _MainScreenState extends State<MainScreen> {
         ),
         backgroundColor: Colors.grey[800],
       ),
-
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -94,10 +97,10 @@ class _MainScreenState extends State<MainScreen> {
                 const SizedBox(height: 10),
                 Container(
                   height: 150,
-                  padding:
-                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
-                  margin:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 10.0, vertical: 20.0),
+                  margin: const EdgeInsets.symmetric(
+                      horizontal: 20.0, vertical: 30.0),
                   decoration: BoxDecoration(boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.2),
@@ -107,24 +110,20 @@ class _MainScreenState extends State<MainScreen> {
                   ], color: Colors.white70),
                   child: Center(
                     child: Text(
-                      "Total Journals: $journalCount", // This count will update automatically
+                      "Total Journals: $journalCount",
                       style: const TextStyle(
                           fontSize: 27,
                           fontWeight: FontWeight.bold,
                           color: Colors.black),
-
                     ),
-
                   ),
-
                 ),
-
                 SizedBox(
                   width: 300,
                   height: 100,
                   child: ElevatedButton.icon(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/NewJournal').then((_){
+                      Navigator.pushNamed(context, '/NewJournal').then((_) {
                         _loadJournalEntries();
                       });
                     },

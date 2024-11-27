@@ -11,6 +11,7 @@ class JournalEntry {
   final String? locationName;
   final String? mood;
   final LatLng? location;
+  final DateTime date;
 
   JournalEntry({
     required this.title,
@@ -21,9 +22,9 @@ class JournalEntry {
     this.locationName = '',
     this.mood = '',
     this.location,
+    required this.date,
   });
 
-  // Convert coordinates to address
   static Future<String> getLocationName(LatLng location) async {
     try {
       List<Placemark> placemarks = await placemarkFromCoordinates(
@@ -62,6 +63,7 @@ class JournalEntry {
         'location': location != null
             ? '${location!.latitude},${location!.longitude}'
             : null,
+        'date': date.toIso8601String(),
       };
 
   factory JournalEntry.fromJson(Map<String, dynamic> json) {
@@ -98,10 +100,11 @@ class JournalEntry {
       location: location,
       latitude: json['latitude'],
       longitude: json['longitude'],
+      date:
+          json['date'] != null ? DateTime.parse(json['date']) : DateTime.now(),
     );
   }
 
-  // Create a copy of JournalEntry with updated locationName
   JournalEntry copyWith({String? locationName}) {
     return JournalEntry(
       title: title,
@@ -112,6 +115,7 @@ class JournalEntry {
       locationName: locationName ?? this.locationName,
       mood: mood,
       location: location,
+      date: date,
     );
   }
 }

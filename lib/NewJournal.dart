@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
-// import 'package:untitled/ViewJournal.dart';
-
 import 'dart:convert';
 import 'package:geolocator/geolocator.dart';
 import 'package:untitled/journal_entry.dart';
@@ -63,7 +61,6 @@ class _NewJournal extends State<NewJournal> {
 
     await _saveJournalEntry(title, content, _images);
 
-    // Navigator.pop(context);
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text("JournalSaved")),
     );
@@ -78,17 +75,22 @@ class _NewJournal extends State<NewJournal> {
     final String fileContent = await journalFile.readAsString();
     final List<dynamic> data = jsonDecode(fileContent);
     return data.map((entry) {
+      List<String> imagePaths =
+          List<String>.from(jsonDecode(entry['imagePaths']));
       return JournalEntry(
-        title: entry['title'],
-        content: entry['content'],
-        imagePaths:
-            (jsonDecode(entry['imagePaths']) as List<dynamic>).isNotEmpty
-                ? (jsonDecode(entry['imagePaths']) as List<dynamic>).first
-                : '',
-        locationName: entry['location']?['name'] ?? '',
+        title: entry['title'] ?? '',
+        content: entry['content'] ?? '',
+        imagePaths: imagePaths,
+        locationName: entry['location'] ?? '',
         latitude: entry['latitude'],
-        location: entry['location']?['coordinates'] ?? '',
+        longitude: entry['longitude'],
         mood: entry['mood'] ?? '',
+        location: entry['latitude'] != null && entry['longitude'] != null
+            ? LatLng(entry['latitude'], entry['longitude'])
+            : null,
+        date: entry['date'] != null
+            ? DateTime.parse(entry['date'])
+            : DateTime.now(),
       );
     }).toList();
   }
@@ -105,16 +107,11 @@ class _NewJournal extends State<NewJournal> {
         await image.copy(imagePath);
         imagePaths.add(imagePath);
       }
-      //
-      // String mood = _selectedMood ?? '';
-      // if (_customerMoodController.text.isEmpty) {
-      //   mood = _customerMoodController.text;
-      // }
+
       double? latitude, longitude;
       String? locationName;
 
       String finalMood = '';
-      // can be done using terenary operator
       if (_customerMoodController.text.isNotEmpty) {
         finalMood = _customerMoodController.text;
       } else {
@@ -135,14 +132,13 @@ class _NewJournal extends State<NewJournal> {
         'title': title,
         'content': content,
         'imagePaths': jsonEncode(imagePaths),
-        // 'locationName': _locationController.text,  // Correctly store the location name
-        'location': locationName?? '',
-        'latitude':latitude?? 0.0,
-        'longitude':longitude?? 0.0,// Store lat/long
-        'name': _locationController.text,         // Store location name again
+        'location': locationName ?? '',
+        'latitude': latitude ?? 0.0,
+        'longitude': longitude ?? 0.0,
+        'name': _locationController.text,
         'mood': finalMood,
+        'date': DateTime.now().toIso8601String(),
       };
-
 
       final journalFile = File('${directory.path}/journals.json');
       List<dynamic> existingData = [];
@@ -153,9 +149,7 @@ class _NewJournal extends State<NewJournal> {
           existingData = jsonDecode(fileContent);
         }
       }
-      if (existingData is! List) {
-        existingData = [];
-      }
+
 
       existingData.add(journalData);
 
@@ -216,7 +210,7 @@ class _NewJournal extends State<NewJournal> {
         String locationName =
             "${place.locality ?? ''}, ${place.administrativeArea ?? ''}, ${place.country ?? ''}";
         locationName = locationName.replaceAll(
-            RegExp(r'^,\s*'), ''); // Remove leading comma if locality is empty
+            RegExp(r'^,\s*'), '');
 
         setState(() {
           _selectedLocation = "${position.latitude},${position.longitude}";
@@ -231,31 +225,11 @@ class _NewJournal extends State<NewJournal> {
     } catch (e) {
       print("Error getting location: $e");
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Error getting location. Please try again.")),
+        const SnackBar(
+            content: Text("Error getting location. Please try again.")),
       );
     }
   }
-
-
-  // void _showMapPicker() async {
-  //   await showModalBottomSheet(
-  //     context: context,
-  //     isScrollControlled: true,
-  //     builder: (context) => Container(
-  //       height: MediaQuery.of(context).size.height * 0.7,
-  //       child: MapPicker(
-  //         onLocationPicked: (location, address) {
-  //           setState(() {
-  //             _selectedLatLng = location;
-  //             _locationController.text = address;
-  //             _selectedLocation = "${location.latitude},${location.longitude}";
-  //           });
-  //         },
-  //       ),
-  //     ),
-  //   );
-  // }
-
   @override
   void dispose() {
     _titleController.dispose();
@@ -297,8 +271,7 @@ class _NewJournal extends State<NewJournal> {
                 decoration: InputDecoration(hintText: "Description"),
               ),
               SizedBox(
-                height: 20,
-              ),
+                height: 20,),
 
               Text(
                 "Mood Tracker:",
@@ -431,8 +404,7 @@ class _NewJournal extends State<NewJournal> {
                     )
                   : Text("No images selected."),
 
-              // _image!=null? Image.file(_image!,height: 200,width: 200,) :
-              // Text("No image selected."),
+
 
               SizedBox(
                 height: 20,
@@ -459,10 +431,7 @@ class _NewJournal extends State<NewJournal> {
               ElevatedButton(
                   onPressed: _saveJournal, child: Text("Save journal")),
 
-              // ElevatedButton(
-              //   onPressed: _showMapPicker,
-              //   child: Text("Pick on Map"),
-              // ),
+
             ],
           ),
         ),

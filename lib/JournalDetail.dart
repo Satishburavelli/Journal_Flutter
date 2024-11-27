@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:insta_image_viewer/insta_image_viewer.dart';
 import 'package:untitled/journal_entry.dart';
 import 'dart:io';
-import 'package:geocoding/geocoding.dart'; // Import geocoding package
+import 'package:geocoding/geocoding.dart';
 
 class JournalDetail extends StatefulWidget {
   final JournalEntry entry;
@@ -66,23 +66,23 @@ class _JournalDetailState extends State<JournalDetail> {
     return SizedBox(
       height: 200,
       child: ListView.builder(
-        scrollDirection: Axis.horizontal, // Scroll horizontally
+        scrollDirection: Axis.horizontal,
         itemCount: imagePaths.length,
         itemBuilder: (context, imageIndex) {
           return InstaImageViewer(
             child: Container(
-              width: 150, // Fixed width for each image
+              width: 150,
               margin: const EdgeInsets.symmetric(
-                  horizontal: 8.0), // Spacing between images
+                  horizontal: 8.0),
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: FileImage(File(imagePaths[imageIndex])),
                   fit: BoxFit.cover,
                 ),
                 borderRadius:
-                    BorderRadius.circular(8.0), // Optional: Rounded corners
+                    BorderRadius.circular(8.0),
                 border:
-                    Border.all(color: Colors.grey.shade300), // Optional: Border
+                    Border.all(color: Colors.grey.shade300),
               ),
             ),
           );
@@ -133,22 +133,23 @@ class _JournalDetailState extends State<JournalDetail> {
                 ),
                 const SizedBox(height: 8),
               ],
-              // Row(
-              //   children: [
-              //     Icon(Icons.location_on, color: Colors.grey[600]),
-              //     const SizedBox(width: 8),
-              //     Text(
-              //       entry.locationName ?? 'Location not available',
-              //       style: TextStyle(fontSize: 16, color: Colors.grey[600]),
-              //     ),
-              //   ],
-              // ),
-              if(widget.entry.locationName!=null && widget.entry.locationName!.isNotEmpty)
+
+              if (widget.entry.locationName != null &&
+                  widget.entry.locationName!.isNotEmpty)
                 Row(
-                  children: [const Icon(Icons.location_on,color: Colors.red,),
-                    const SizedBox(width:8),
-                    Expanded(child: Text('Location: ${widget.entry.locationName!}',style: TextStyle(fontSize: 17),
-                    ),)],
+                  children: [
+                    const Icon(
+                      Icons.location_on,
+                      color: Colors.red,
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        'Location: ${widget.entry.locationName!}',
+                        style: TextStyle(fontSize: 17),
+                      ),
+                    )
+                  ],
                 ),
 
               const SizedBox(height: 16),

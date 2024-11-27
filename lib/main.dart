@@ -4,10 +4,9 @@ import 'package:untitled/LoginPage.dart';
 import 'package:untitled/MainScreen.dart';
 import 'package:untitled/NewJournal.dart';
 import 'package:untitled/ViewJournal.dart';
-import 'package:untitled/journal_entry.dart';
 
 void main() {
-  runApp( const TravelJournal());
+  runApp(const TravelJournal());
 }
 
 class TravelJournal extends StatelessWidget {
@@ -21,7 +20,6 @@ class TravelJournal extends StatelessWidget {
       routes: {
         '/MainScreen': (context) => const MainScreen(),
         '/NewJournal': (context) => NewJournal(),
-        // '/ViewJournal': (context) => ViewJournal(
         '/ViewJournal': (context) => ViewJournal(),
         '/JourneyMap': (context) => JourneyMap(),
       },
