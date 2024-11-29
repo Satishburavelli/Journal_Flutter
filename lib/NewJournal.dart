@@ -243,8 +243,10 @@ class _NewJournal extends State<NewJournal> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.grey[800],
+        iconTheme: const IconThemeData(color: Colors.white),
+        backgroundColor: Colors.black,
         title: const Text(
           "NewJournal",
           style: TextStyle(fontSize: 24, color: Colors.white),
@@ -257,9 +259,11 @@ class _NewJournal extends State<NewJournal> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               TextField(
-                style: const TextStyle(fontSize: 20),
+
+                style: const TextStyle(fontSize: 20,color: Colors.white),
                 controller: _titleController,
-                decoration: InputDecoration(hintText: "Journal Title"),
+
+                decoration: InputDecoration(hintText: "Journal Title",),
               ),
               SizedBox(
                 height: 20,

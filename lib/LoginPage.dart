@@ -18,9 +18,10 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: Colors.grey[900],
+        backgroundColor: Colors.black,
         resizeToAvoidBottomInset: true,
         body: Center(
+
           child: SingleChildScrollView(
             child: Column(
               children: [
@@ -34,6 +35,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 Container(
+
                   padding: const EdgeInsets.symmetric(
                       horizontal: 10.0, vertical: 20.0),
                   margin: const EdgeInsets.symmetric(
@@ -47,7 +49,7 @@ class _LoginPageState extends State<LoginPage> {
                           offset: const Offset(0, 5),
                         ),
                       ],
-                      color: Colors.white,
+                      color: Colors.grey[900],
                       borderRadius: BorderRadius.circular(45.0)),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -59,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
                             "Welcome!",
                             style: TextStyle(
                               fontSize: 30,
-                              color: Colors.black,
+                              color: Colors.pink,
                             ),
                           )),
                           const SizedBox(height: 20),
@@ -72,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
                                   "Username",
                                   style: TextStyle(
                                       fontSize: 20,
-                                      color: Colors.brown.shade700,
+                                      color: Colors.white,
                                       fontWeight: FontWeight.bold),
                                 ),
                               )),
@@ -80,6 +82,7 @@ class _LoginPageState extends State<LoginPage> {
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 50.0),
                             child: TextField(
+                              style: TextStyle(color: Colors.white70),
                               controller: _usernameController,
                               decoration: const InputDecoration(
                                 border: OutlineInputBorder(),
@@ -99,7 +102,7 @@ class _LoginPageState extends State<LoginPage> {
                                   " Password ",
                                   style: TextStyle(
                                       fontSize: 20,
-                                      color: Colors.brown.shade700,
+                                      color: Colors.white,
                                       fontWeight: FontWeight.bold),
                                 ),
                               )),
@@ -107,6 +110,8 @@ class _LoginPageState extends State<LoginPage> {
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 50.0),
                             child: TextField(
+                              style: TextStyle(color: Colors.white70),
+
                               controller: _passwordController,
                               obscureText: _obscurePassword,
                               decoration: InputDecoration(
@@ -155,7 +160,7 @@ class _LoginPageState extends State<LoginPage> {
                               }
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.black,
+                              backgroundColor: Colors.pink,
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 50, vertical: 15),
                               textStyle: const TextStyle(fontSize: 19),

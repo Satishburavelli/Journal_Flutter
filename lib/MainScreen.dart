@@ -78,21 +78,28 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
+
         automaticallyImplyLeading: false,
         title: const Text(
           'HomePage',
           style: TextStyle(
-              color: Colors.white70, fontSize: 24, fontWeight: FontWeight.w700),
+
+              color: Colors.white, fontSize: 24, fontWeight: FontWeight.w700),
         ),
-        backgroundColor: Colors.grey[800],
+        backgroundColor: Colors.black,
       ),
       body: SingleChildScrollView(
+
         child: Padding(
+
           padding: const EdgeInsets.all(16.0),
           child: Center(
+
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
+
               children: [
                 const SizedBox(height: 10),
                 Container(
@@ -107,14 +114,14 @@ class _MainScreenState extends State<MainScreen> {
                       blurRadius: 2,
                       spreadRadius: 10,
                     ),
-                  ], color: Colors.white70),
+                  ], color: Colors.grey[700]),
                   child: Center(
                     child: Text(
                       "Total Journals: $journalCount",
                       style: const TextStyle(
                           fontSize: 27,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black),
+                          color: Colors.white),
                     ),
                   ),
                 ),
