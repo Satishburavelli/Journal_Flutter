@@ -56,12 +56,12 @@ class _LoginPageState extends State<LoginPage> {
                     children: [
                       Column(
                         children: [
-                          const Center(
+                           Center(
                               child: Text(
                             "Welcome!",
                             style: TextStyle(
                               fontSize: 30,
-                              color: Colors.pink,
+                              color: Colors.green[100],
                             ),
                           )),
                           const SizedBox(height: 20),
@@ -160,7 +160,7 @@ class _LoginPageState extends State<LoginPage> {
                               }
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.pink,
+                              backgroundColor: Colors.green[900],
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 50, vertical: 15),
                               textStyle: const TextStyle(fontSize: 19),

@@ -56,8 +56,11 @@ class _JourneyMapState extends State<JourneyMap> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: Colors.grey[800],
+        backgroundColor: Colors.black,
+        iconTheme: const IconThemeData(color: Colors.white),
+
         title: const Text(
           'My Journies',
           style: TextStyle(color: Colors.white),
@@ -67,7 +70,7 @@ class _JourneyMapState extends State<JourneyMap> {
           ? Center(
               child: Text(
                 "No locations are here display",
-                style: TextStyle(fontSize: 19),
+                style: TextStyle(fontSize: 19,color: Colors.white70),
               ),
             )
           : FlutterMap(

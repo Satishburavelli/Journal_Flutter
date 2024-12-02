@@ -82,7 +82,7 @@ class _JournalDetailState extends State<JournalDetail> {
                 borderRadius:
                     BorderRadius.circular(8.0),
                 border:
-                    Border.all(color: Colors.grey.shade300),
+                    Border.all(color: Colors.white),
               ),
             ),
           );
@@ -94,8 +94,10 @@ class _JournalDetailState extends State<JournalDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[900],
       appBar: AppBar(
-        backgroundColor: Colors.grey[800],
+        iconTheme: const IconThemeData(color: Colors.white),
+        backgroundColor: Colors.black,
         title: Text(widget.entry.title,
             style: const TextStyle(color: Colors.white)),
       ),
@@ -113,6 +115,7 @@ class _JournalDetailState extends State<JournalDetail> {
                 style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
+                  color: Colors.white,
                 ),
               ),
               const SizedBox(height: 16),
@@ -120,13 +123,13 @@ class _JournalDetailState extends State<JournalDetail> {
                   widget.entry.mood!.isNotEmpty) ...[
                 Row(
                   children: [
-                    Icon(Icons.mood, color: Colors.grey[600]),
+                    Icon(Icons.mood, color: Colors.yellow),
                     const SizedBox(width: 8),
                     Text(
                       'Mood: ${widget.entry.mood}',
                       style: TextStyle(
                         fontSize: 16,
-                        color: Colors.grey[600],
+                        color: Colors.white70,
                       ),
                     ),
                   ],
@@ -146,7 +149,7 @@ class _JournalDetailState extends State<JournalDetail> {
                     Expanded(
                       child: Text(
                         'Location: ${widget.entry.locationName!}',
-                        style: TextStyle(fontSize: 17),
+                        style: TextStyle(fontSize: 17,color: Colors.white),
                       ),
                     )
                   ],
@@ -155,7 +158,7 @@ class _JournalDetailState extends State<JournalDetail> {
               const SizedBox(height: 16),
               Text(
                 widget.entry.content,
-                style: const TextStyle(fontSize: 16),
+                style:  TextStyle(fontSize: 16,color: Colors.grey[400]),
               ),
             ],
           ),

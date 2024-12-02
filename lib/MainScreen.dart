@@ -80,26 +80,20 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-
         automaticallyImplyLeading: false,
         title: const Text(
           'HomePage',
           style: TextStyle(
-
               color: Colors.white, fontSize: 24, fontWeight: FontWeight.w700),
         ),
         backgroundColor: Colors.black,
       ),
       body: SingleChildScrollView(
-
         child: Padding(
-
           padding: const EdgeInsets.all(16.0),
           child: Center(
-
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
-
               children: [
                 const SizedBox(height: 10),
                 Container(
@@ -110,18 +104,18 @@ class _MainScreenState extends State<MainScreen> {
                       horizontal: 20.0, vertical: 30.0),
                   decoration: BoxDecoration(boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
+                      color: Colors.green.shade900,
                       blurRadius: 2,
                       spreadRadius: 10,
                     ),
-                  ], color: Colors.grey[700]),
+                  ], color: Colors.green[100]),
                   child: Center(
                     child: Text(
                       "Total Journals: $journalCount",
                       style: const TextStyle(
                           fontSize: 27,
                           fontWeight: FontWeight.bold,
-                          color: Colors.white),
+                          color: Colors.black),
                     ),
                   ),
                 ),
@@ -136,7 +130,7 @@ class _MainScreenState extends State<MainScreen> {
                     },
                     icon: const Icon(
                       Icons.add_circle_outline_outlined,
-                      color: Colors.red,
+                      color: Colors.amber,
                     ),
                     label: const Text(
                       "Create New Journal",
@@ -199,7 +193,7 @@ class _MainScreenState extends State<MainScreen> {
                     },
                     icon: const Icon(
                       Icons.map,
-                      color: Colors.pink,
+                      color: Colors.amber,
                     ),
                     label: const Text(
                       "My Journies",

@@ -93,8 +93,10 @@ class _ViewJournalState extends State<ViewJournal> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[900],
         appBar: AppBar(
-          backgroundColor: Colors.grey[800],
+          iconTheme: const IconThemeData(color: Colors.white),
+          backgroundColor: Colors.black,
           title: const Text(
             "ViewJournal",
             style: TextStyle(
@@ -121,6 +123,7 @@ class _ViewJournalState extends State<ViewJournal> {
                             ));
                       },
                       child: Card(
+                        color: Colors.black12,
                         margin: const EdgeInsets.symmetric(vertical: 8.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -148,16 +151,18 @@ class _ViewJournalState extends State<ViewJournal> {
                                       Expanded(
                                         child: Text(
                                           entry.title,
-                                          style: const TextStyle(
+                                          style:  TextStyle(
                                             fontSize: 19,
+                                            color: Colors.green.shade300,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
+
                                       ),
                                       Text(
                                         '${entry.date.day}/${entry.date.month}/${entry.date.year}',
                                         style: TextStyle(
-                                          color: Colors.grey[600],
+                                          color: Colors.grey[400],
                                           fontSize: 14,
                                         ),
                                       ),
@@ -170,11 +175,11 @@ class _ViewJournalState extends State<ViewJournal> {
                                       Expanded(
                                           child: Text(entry.content.length > 50
                                               ? '${entry.content.length > 50}'
-                                              : entry.content)),
+                                              : entry.content,style: TextStyle(color: Colors.white),)),
                                       if (entry.content.length > 50)
                                         Text(
                                           'View More....',
-                                          style: TextStyle(color: Colors.blue),
+                                          style: TextStyle(color: Colors.blue[300]),
                                         ),
                                     ],
                                   ),
