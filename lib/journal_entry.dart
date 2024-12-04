@@ -3,13 +3,13 @@ import 'package:geocoding/geocoding.dart';
 import 'dart:convert';
 
 class JournalEntry {
-  final String title;
+  String title;
   final List<String> imagePaths;
-  final String content;
+  String content;
   final double? latitude;
   final double? longitude;
   final String? locationName;
-  final String? mood;
+  String? mood;
   final LatLng? location;
   final DateTime date;
 
@@ -53,18 +53,18 @@ class JournalEntry {
   }
 
   Map<String, dynamic> toJson() => {
-        'title': title,
-        'content': content,
-        'imagePaths': imagePaths,
-        'latitude': latitude,
-        'longitude': longitude,
-        'locationName': locationName,
-        'mood': mood,
-        'location': location != null
-            ? '${location!.latitude},${location!.longitude}'
-            : null,
-        'date': date.toIso8601String(),
-      };
+    'title': title,
+    'content': content,
+    'imagePaths': imagePaths,
+    'latitude': latitude,
+    'longitude': longitude,
+    'locationName': locationName,
+    'mood': mood,
+    'location': location != null
+        ? '${location!.latitude},${location!.longitude}'
+        : null,
+    'date': date.toIso8601String(),
+  };
 
   factory JournalEntry.fromJson(Map<String, dynamic> json) {
     List<String> imagePaths = [];
@@ -101,7 +101,7 @@ class JournalEntry {
       latitude: json['latitude'],
       longitude: json['longitude'],
       date:
-          json['date'] != null ? DateTime.parse(json['date']) : DateTime.now(),
+      json['date'] != null ? DateTime.parse(json['date']) : DateTime.now(),
     );
   }
 
