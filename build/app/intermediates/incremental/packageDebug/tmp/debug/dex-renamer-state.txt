@@ -1,4 +1,4 @@
-#Wed Dec 04 08:56:12 CET 2024
+#Thu Dec 05 12:32:45 CET 2024
 base.0=D\:\\ApplicationJournal\\Journal_Flutter\\build\\app\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
 base.1=D\:\\ApplicationJournal\\Journal_Flutter\\build\\app\\intermediates\\dex\\debug\\mergeLibDexDebug\\0\\classes.dex
 base.2=D\:\\ApplicationJournal\\Journal_Flutter\\build\\app\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex

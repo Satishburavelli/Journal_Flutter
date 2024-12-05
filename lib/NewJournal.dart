@@ -8,6 +8,8 @@ import 'package:untitled/journal_entry.dart';
 import 'package:geocoding/geocoding.dart';
 import 'dart:async';
 import 'package:latlong2/latlong.dart';
+import 'package:provider/provider.dart';
+import 'package:untitled/providers/theme_provider.dart';
 
 class NewJournal extends StatefulWidget {
   const NewJournal({super.key});
@@ -150,7 +152,6 @@ class _NewJournal extends State<NewJournal> {
         }
       }
 
-
       existingData.add(journalData);
 
       await journalFile.writeAsString(jsonEncode(existingData));
@@ -209,8 +210,7 @@ class _NewJournal extends State<NewJournal> {
         Placemark place = placemarks[0];
         String locationName =
             "${place.locality ?? ''}, ${place.administrativeArea ?? ''}, ${place.country ?? ''}";
-        locationName = locationName.replaceAll(
-            RegExp(r'^,\s*'), '');
+        locationName = locationName.replaceAll(RegExp(r'^,\s*'), '');
 
         setState(() {
           _selectedLocation = "${position.latitude},${position.longitude}";
@@ -230,6 +230,7 @@ class _NewJournal extends State<NewJournal> {
       );
     }
   }
+
   @override
   void dispose() {
     _titleController.dispose();
@@ -242,14 +243,22 @@ class _NewJournal extends State<NewJournal> {
 
   @override
   Widget build(BuildContext context) {
+    final themeMode = Provider.of<ThemeProvider>(context).themeMode;
+    final backgroundColor =
+        themeMode == ThemeMode.dark ? Colors.black : Colors.white;
+    final textColors =
+        themeMode == ThemeMode.dark ? Colors.white : Colors.black;
+    final hintColors =
+        themeMode == ThemeMode.dark ? Colors.grey[700] : Colors.grey[400];
+
     return Scaffold(
-      backgroundColor: Colors.grey[900],
+      backgroundColor: backgroundColor,
       appBar: AppBar(
-        iconTheme: const IconThemeData(color: Colors.white),
-        backgroundColor: Colors.black,
-        title: const Text(
+        iconTheme: IconThemeData(color: textColors),
+        backgroundColor: backgroundColor,
+        title: Text(
           "NewJournal",
-          style: TextStyle(fontSize: 24, color: Colors.white),
+          style: TextStyle(fontSize: 24, color: textColors),
         ),
       ),
       body: SingleChildScrollView(
@@ -259,12 +268,12 @@ class _NewJournal extends State<NewJournal> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               TextField(
-
-                style: const TextStyle(fontSize: 20,color: Colors.white),
+                style: TextStyle(fontSize: 20, color: textColors),
                 controller: _titleController,
-
-                decoration: InputDecoration(hintText: "Journal Title",
-                    hintStyle: TextStyle(color: Colors.white24)),
+                decoration: InputDecoration(
+                  hintText: "Journal Title",
+                  hintStyle: TextStyle(color: hintColors),
+                ),
               ),
               SizedBox(
                 height: 20,
@@ -272,39 +281,40 @@ class _NewJournal extends State<NewJournal> {
               TextField(
                 maxLines: 6,
                 controller: _contentController,
-                style: TextStyle(fontSize: 20,color:Colors.white),
-                decoration: InputDecoration(hintText: "Description",
-                  hintStyle: TextStyle(color: Colors.white24),
+                style: TextStyle(fontSize: 20, color: textColors),
+                decoration: InputDecoration(
+                  hintText: "Description",
+                  hintStyle: TextStyle(color: hintColors),
                 ),
               ),
               SizedBox(
-                height: 20,),
-
+                height: 20,
+              ),
               Text(
                 "Mood Tracker:",
-                style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold,color: Colors.white),
+                style: TextStyle(
+                    fontSize: 23,
+                    fontWeight: FontWeight.bold,
+                    color: textColors),
               ),
-
               SizedBox(
                 height: 10,
               ),
-
               DropdownButtonFormField<String>(
-                dropdownColor: Colors.grey[800],
-
+                dropdownColor: backgroundColor,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: "Select a mood",
-                  hintStyle: TextStyle(color: Colors.white30),
+                  hintStyle: TextStyle(color: hintColors),
                 ),
                 value: _selectedMood,
                 items: _moods.map((mood) {
                   return DropdownMenuItem(
-
-
                     value: mood,
-                    child: Text(mood,style: TextStyle(color: Colors.white),),
-
+                    child: Text(
+                      mood,
+                      style: TextStyle(color:textColors),
+                    ),
                   );
                 }).toList(),
                 onChanged: (value) {
@@ -313,29 +323,23 @@ class _NewJournal extends State<NewJournal> {
                   });
                 },
               ),
-
               SizedBox(
                 height: 10,
               ),
-
               TextField(
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: textColors),
                 controller: _customerMoodController,
                 decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: "Enter a custom mood(optional)",
-                  hintStyle: TextStyle(color: Colors.white30)
-
+                  border: OutlineInputBorder(),
+                  hintText: "Enter a custom mood(optional)",
+                  hintStyle: TextStyle(color: hintColors),
                 ),
-
               ),
-
               SizedBox(
                 height: 20,
               ),
-
               TextField(
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: textColors),
                 controller: _locationController,
                 onChanged: (value) {
                   if (_debounce?.isActive ?? false) _debounce!.cancel();
@@ -353,24 +357,35 @@ class _NewJournal extends State<NewJournal> {
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                              content: Text("No location found \"$value\"",style: TextStyle(color:Colors.white),)),
+                              content: Text(
+                            "No location found \"$value\"",
+                            style: TextStyle(color: Colors.white),
+                          )),
                         );
                       }
                     } catch (e) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text("Error finding location: $e ",style: TextStyle(color: Colors.white),)),
+                        SnackBar(
+                            content: Text(
+                          "Error finding location: $e ",
+                          style: TextStyle(color: Colors.grey[600]),
+                        )),
                       );
                     }
                   });
                 },
-                decoration:
-                    InputDecoration(hintText: "Enter location:(eg: New York)",hintStyle: TextStyle(color: Colors.white30)),
+                decoration: InputDecoration(
+                  hintText: "Enter location:(eg: New York)",
+                  hintStyle: TextStyle(color: hintColors),
+                ),
               ),
               SizedBox(
                 height: 20,
               ),
               ElevatedButton(
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.green[100],),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green[100],
+                ),
                 onPressed: _isLoadingLocation
                     ? null
                     : () async {
@@ -383,14 +398,21 @@ class _NewJournal extends State<NewJournal> {
                         });
                       },
                 child: _isLoadingLocation
-                    ? CircularProgressIndicator(color: Colors.grey,backgroundColor: Colors.green,)
-                    : Text("Use GPS location",style: TextStyle(color: Colors.black),),
+                    ? CircularProgressIndicator(
+                        color: Colors.grey,
+                        backgroundColor: Colors.green,
+                      )
+                    : Text(
+                        "Use GPS location",
+                        style: TextStyle(color: Colors.black),
+                      ),
               ),
-
               _selectedLocation != null
-                  ? Text("Selected Location: $_selectedLocation",style: TextStyle(color: Colors.white54,fontSize: 12),)
+                  ? Text(
+                      "Selected Location: $_selectedLocation",
+                      style: TextStyle(color: Colors.grey[700], fontSize: 12),
+                    )
                   : SizedBox(),
-
               SizedBox(
                 height: 20,
               ),
@@ -422,39 +444,49 @@ class _NewJournal extends State<NewJournal> {
                         }).toList(),
                       ),
                     )
-                  : Text("No images selected.",style: TextStyle(color: Colors.white30),),
-
-
-
+                  : Text(
+                      "No images selected.",
+                      style: TextStyle(color: textColors),
+                    ),
               SizedBox(
                 height: 20,
               ),
-
               ElevatedButton(
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.green[100],),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green[100],
+                ),
                 onPressed: () => _getImage(ImageSource.gallery),
-                child: Text("Select an image",style: TextStyle(color: Colors.black),),
+                child: Text(
+                  "Select an image",
+                  style: TextStyle(color: Colors.black),
+                ),
               ),
-
               SizedBox(
                 height: 20,
               ),
-
               ElevatedButton(
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.green[100],),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green[100],
+                ),
                 onPressed: () => _getImage(ImageSource.camera),
-                child: Text("Click a photo",style: TextStyle(color: Colors.black),),
+                child: Text(
+                  "Click a photo",
+                  style: TextStyle(color: Colors.black),
+                ),
               ),
-
               SizedBox(
                 height: 20,
               ),
-
               ElevatedButton(
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.green[900],),
-                  onPressed: _saveJournal, child: Text("Save journal",style: TextStyle(color: Colors.white),),),
-
-
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green[900],
+                ),
+                onPressed: _saveJournal,
+                child: Text(
+                  "Save journal",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
             ],
           ),
         ),

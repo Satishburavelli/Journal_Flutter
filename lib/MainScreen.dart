@@ -5,6 +5,8 @@ import 'journal_entry.dart';
 import 'dart:convert';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
+import 'package:untitled/providers/theme_provider.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -21,6 +23,10 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
     _loadJournalEntries();
+  }
+
+  void _toggleTheme() {
+    Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
   }
 
   Future<void> _loadJournalEntries() async {
@@ -77,16 +83,36 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final themeMode = Provider.of<ThemeProvider>(context).themeMode;
+    final backgroundColor =
+        themeMode == ThemeMode.dark ? Colors.black : Colors.white;
+    final textColors =
+        themeMode == ThemeMode.dark ? Colors.white : Colors.black;
+    final buttonColors =
+        themeMode == ThemeMode.dark ? Colors.grey[900] : Colors.grey[600];
+
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: backgroundColor,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text(
+        title: Text(
           'HomePage',
           style: TextStyle(
-              color: Colors.white, fontSize: 24, fontWeight: FontWeight.w700),
+              color: textColors, fontSize: 24, fontWeight: FontWeight.w700),
         ),
-        backgroundColor: Colors.black,
+        backgroundColor:
+            themeMode == ThemeMode.dark ? Colors.black : Colors.white,
+        actions: [
+          IconButton(
+            onPressed: _toggleTheme,
+            icon: Icon(
+                themeMode == ThemeMode.dark
+                    ? Icons.light_mode
+                    : Icons.light_mode,
+                color:
+                    themeMode == ThemeMode.dark ? Colors.yellow : Colors.black),
+          )
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -132,10 +158,10 @@ class _MainScreenState extends State<MainScreen> {
                       Icons.add_circle_outline_outlined,
                       color: Colors.amber,
                     ),
-                    label: const Text(
+                    label: Text(
                       "Create New Journal",
                       style: TextStyle(
-                          color: Colors.white,
+                          color: textColors,
                           fontSize: 22,
                           fontWeight: FontWeight.w400),
                     ),
@@ -145,7 +171,7 @@ class _MainScreenState extends State<MainScreen> {
                         textStyle: const TextStyle(fontSize: 19),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10)),
-                        backgroundColor: Colors.grey[900]),
+                        backgroundColor: buttonColors),
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -163,10 +189,10 @@ class _MainScreenState extends State<MainScreen> {
                       Icons.view_module_sharp,
                       color: Colors.amber,
                     ),
-                    label: const Text(
+                    label: Text(
                       "View Journal",
                       style: TextStyle(
-                        color: Colors.white,
+                        color: textColors,
                         fontSize: 22,
                         fontWeight: FontWeight.w400,
                       ),
@@ -175,7 +201,7 @@ class _MainScreenState extends State<MainScreen> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 24, vertical: 12),
                         textStyle: const TextStyle(fontSize: 19),
-                        backgroundColor: Colors.grey[900],
+                        backgroundColor: buttonColors,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10))),
                   ),
@@ -195,10 +221,10 @@ class _MainScreenState extends State<MainScreen> {
                       Icons.map,
                       color: Colors.amber,
                     ),
-                    label: const Text(
+                    label: Text(
                       "My Journies",
                       style: TextStyle(
-                        color: Colors.white,
+                        color: textColors,
                         fontSize: 22,
                         fontWeight: FontWeight.w400,
                       ),
@@ -207,7 +233,7 @@ class _MainScreenState extends State<MainScreen> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 24, vertical: 12),
                         textStyle: const TextStyle(fontSize: 19),
-                        backgroundColor: Colors.grey[900],
+                        backgroundColor: buttonColors,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10))),
                   ),

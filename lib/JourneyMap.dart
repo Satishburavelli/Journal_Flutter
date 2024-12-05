@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:provider/provider.dart';
+import 'package:untitled/providers/theme_provider.dart';
 
 import 'package:latlong2/latlong.dart';
 
@@ -55,22 +57,27 @@ class _JourneyMapState extends State<JourneyMap> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        iconTheme: const IconThemeData(color: Colors.white),
+    final themeMode = Provider.of<ThemeProvider>(context).themeMode;
+    final backgroundColor =
+        themeMode == ThemeMode.dark ? Colors.black : Colors.white;
+    final textColors =
+        themeMode == ThemeMode.dark ? Colors.white : Colors.black;
 
-        title: const Text(
-          'My Journies',
-          style: TextStyle(color: Colors.white),
+    return Scaffold(
+      backgroundColor: backgroundColor,
+      appBar: AppBar(
+        backgroundColor: backgroundColor,
+        title: Text(
+          'Journey Map',
+          style: TextStyle(color: textColors),
         ),
+        iconTheme: IconThemeData(color: textColors),
       ),
       body: _locations.isEmpty
           ? Center(
               child: Text(
                 "No locations are here display",
-                style: TextStyle(fontSize: 19,color: Colors.white70),
+                style: TextStyle(fontSize: 19, color: Colors.white70),
               ),
             )
           : FlutterMap(
@@ -79,9 +86,7 @@ class _JourneyMapState extends State<JourneyMap> {
                 initialCenter:
                     _locations.isNotEmpty ? _locations.first : LatLng(0, 0),
                 initialZoom: 5.0,
-              )
-
-              ,
+              ),
               children: [
                 TileLayer(
                   urlTemplate:

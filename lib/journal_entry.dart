@@ -53,18 +53,18 @@ class JournalEntry {
   }
 
   Map<String, dynamic> toJson() => {
-    'title': title,
-    'content': content,
-    'imagePaths': imagePaths,
-    'latitude': latitude,
-    'longitude': longitude,
-    'locationName': locationName,
-    'mood': mood,
-    'location': location != null
-        ? '${location!.latitude},${location!.longitude}'
-        : null,
-    'date': date.toIso8601String(),
-  };
+        'title': title,
+        'content': content,
+        'imagePaths': imagePaths,
+        'latitude': latitude,
+        'longitude': longitude,
+        'locationName': locationName,
+        'mood': mood,
+        'location': location != null
+            ? '${location!.latitude},${location!.longitude}'
+            : null,
+        'date': date.toIso8601String(),
+      };
 
   factory JournalEntry.fromJson(Map<String, dynamic> json) {
     List<String> imagePaths = [];
@@ -101,7 +101,7 @@ class JournalEntry {
       latitude: json['latitude'],
       longitude: json['longitude'],
       date:
-      json['date'] != null ? DateTime.parse(json['date']) : DateTime.now(),
+          json['date'] != null ? DateTime.parse(json['date']) : DateTime.now(),
     );
   }
 

@@ -5,6 +5,8 @@ import 'dart:io';
 import 'package:geocoding/geocoding.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:convert';
+import 'package:provider/provider.dart';
+import 'package:untitled/providers/theme_provider.dart';
 
 class JournalDetail extends StatefulWidget {
   final JournalEntry entry;
@@ -67,7 +69,7 @@ class _JournalDetailState extends State<JournalDetail> {
       builder: (context) => AlertDialog(
         backgroundColor: Colors.grey[850],
         title:
-        Text('Edit Journal Entry', style: TextStyle(color: Colors.white)),
+            Text('Edit Journal Entry', style: TextStyle(color: Colors.white)),
         content: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -154,7 +156,7 @@ class _JournalDetailState extends State<JournalDetail> {
           final place = placemarks.first;
           setState(() {
             _locationName =
-            '${place.locality}, ${place.administrativeArea}, ${place.country}';
+                '${place.locality}, ${place.administrativeArea}, ${place.country}';
           });
         } else {
           setState(() {
@@ -203,17 +205,24 @@ class _JournalDetailState extends State<JournalDetail> {
 
   @override
   Widget build(BuildContext context) {
+    final themeMode = Provider.of<ThemeProvider>(context).themeMode;
+    final backgroundColor =
+        themeMode == ThemeMode.dark ? Colors.black : Colors.white;
+    final textColors =
+        themeMode == ThemeMode.dark ? Colors.white : Colors.black;
+    final secondaryTextColors =
+        themeMode == ThemeMode.dark ? Colors.grey[400] : Colors.grey[700];
+
     return Scaffold(
-      backgroundColor: Colors.grey[900],
+      backgroundColor: backgroundColor,
       appBar: AppBar(
-        iconTheme: const IconThemeData(color: Colors.white),
-        backgroundColor: Colors.black,
-        title: Text(widget.entry.title,
-            style: const TextStyle(color: Colors.white)),
+        iconTheme: IconThemeData(color: textColors),
+        backgroundColor: backgroundColor,
+        title: Text(widget.entry.title, style: TextStyle(color: textColors)),
         actions: [
           IconButton(
             onPressed: () => _showEditDialog(context),
-            icon: const Icon(Icons.edit, color: Colors.white),
+            icon: Icon(Icons.edit, color: textColors),
           ),
         ],
       ),
@@ -228,13 +237,12 @@ class _JournalDetailState extends State<JournalDetail> {
               const SizedBox(height: 16),
               Text(
                 widget.entry.title,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: textColors,
                 ),
               ),
-              const SizedBox(height: 16),
               if (widget.entry.mood != null &&
                   widget.entry.mood!.isNotEmpty) ...[
                 Row(
@@ -245,26 +253,25 @@ class _JournalDetailState extends State<JournalDetail> {
                       'Mood: ${widget.entry.mood}',
                       style: TextStyle(
                         fontSize: 16,
-                        color: Colors.white70,
+                        color: secondaryTextColors,
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 8),
               ],
               if (widget.entry.locationName != null &&
                   widget.entry.locationName!.isNotEmpty)
                 Row(
                   children: [
-                    const Icon(
-                      Icons.location_on,
-                      color: Colors.red,
-                    ),
+                    const Icon(Icons.location_on, color: Colors.red),
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
                         'Location: ${widget.entry.locationName!}',
-                        style: TextStyle(fontSize: 17, color: Colors.white),
+                        style: TextStyle(
+                          fontSize: 17,
+                          color: textColors,
+                        ),
                       ),
                     )
                   ],
@@ -272,7 +279,10 @@ class _JournalDetailState extends State<JournalDetail> {
               const SizedBox(height: 16),
               Text(
                 widget.entry.content,
-                style: TextStyle(fontSize: 16, color: Colors.grey[400]),
+                style: TextStyle(
+                  fontSize: 16,
+                  color: secondaryTextColors,
+                ),
               ),
             ],
           ),
