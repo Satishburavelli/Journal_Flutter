@@ -1,23 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:untitled/JourneyMap.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:untitled/LoginPage.dart';
 import 'package:untitled/MainScreen.dart';
 import 'package:untitled/NewJournal.dart';
 import 'package:untitled/ViewJournal.dart';
+import 'package:untitled/JourneyMap.dart';
+import 'package:untitled/WelcomeScreen.dart';
 import 'package:untitled/providers/theme_provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final prefs = await SharedPreferences.getInstance();
+  final username = prefs.getString('username');
+
   runApp(
     ChangeNotifierProvider(
       create: (_) => ThemeProvider(),
-      child: const TravelJournal(),
+      child: TravelJournal(
+        initialRoute: '/LoginPage',
+      ),
     ),
   );
 }
 
 class TravelJournal extends StatelessWidget {
-  const TravelJournal({super.key});
+  final String initialRoute;
+
+  const TravelJournal({super.key, required this.initialRoute});
 
   @override
   Widget build(BuildContext context) {
@@ -26,12 +36,14 @@ class TravelJournal extends StatelessWidget {
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
       themeMode: ThemeMode.system,
-      home: const LoginPage(),
+      initialRoute: initialRoute,
       routes: {
+        '/LoginPage': (context) => const LoginPage(),
         '/MainScreen': (context) => const MainScreen(),
         '/NewJournal': (context) => NewJournal(),
         '/ViewJournal': (context) => ViewJournal(),
         '/JourneyMap': (context) => JourneyMap(),
+        '/WelcomeScreen': (context) => const WelcomeScreen(),
       },
     );
   }

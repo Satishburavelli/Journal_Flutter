@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.untitled.app-mergeDebugResources-28:/values-en-rIN/values-en-rIN.xml",
+            "outputFile": "com.example.untitled.app-mergeDebugResources-30:/values-en-rIN/values-en-rIN.xml",
             "map": [
                 {
                     "source": "C:\\Users\\vamsi\\.gradle\\caches\\8.10.2\\transforms\\6ed8ea106e42b0291de4a114cba06d52\\transformed\\core-1.13.1\\res\\values-en-rIN\\values-en-rIN.xml",

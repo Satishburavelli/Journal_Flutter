@@ -74,6 +74,12 @@
       "languageVersion": "3.3"
     },
     {
+      "name": "file",
+      "rootUri": "file:///C:/Users/vamsi/AppData/Local/Pub/Cache/hosted/pub.dev/file-7.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "file_selector_linux",
       "rootUri": "file:///C:/Users/vamsi/AppData/Local/Pub/Cache/hosted/pub.dev/file_selector_linux-0.9.3+1",
       "packageUri": "lib/",
@@ -506,6 +512,48 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "shared_preferences",
+      "rootUri": "file:///C:/Users/vamsi/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences-2.3.3",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "shared_preferences_android",
+      "rootUri": "file:///C:/Users/vamsi/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences_android-2.3.4",
+      "packageUri": "lib/",
+      "languageVersion": "3.5"
+    },
+    {
+      "name": "shared_preferences_foundation",
+      "rootUri": "file:///C:/Users/vamsi/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences_foundation-2.5.3",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
+    },
+    {
+      "name": "shared_preferences_linux",
+      "rootUri": "file:///C:/Users/vamsi/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences_linux-2.4.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
+    },
+    {
+      "name": "shared_preferences_platform_interface",
+      "rootUri": "file:///C:/Users/vamsi/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences_platform_interface-2.4.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
+    },
+    {
+      "name": "shared_preferences_web",
+      "rootUri": "file:///C:/Users/vamsi/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences_web-2.4.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "shared_preferences_windows",
+      "rootUri": "file:///C:/Users/vamsi/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences_windows-2.4.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
+    },
+    {
       "name": "sky_engine",
       "rootUri": "file:///C:/Users/vamsi/flutter_windows_3.24.4-stable/flutter/bin/cache/pkg/sky_engine",
       "packageUri": "lib/",
@@ -614,7 +662,7 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2024-12-05T11:32:11.701141Z",
+  "generated": "2024-12-06T16:42:24.815529Z",
   "generator": "pub",
   "generatorVersion": "3.5.4",
   "flutterRoot": "file:///C:/Users/vamsi/flutter_windows_3.24.4-stable/flutter",

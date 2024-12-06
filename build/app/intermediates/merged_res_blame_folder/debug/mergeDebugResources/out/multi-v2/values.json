@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.untitled.app-mergeDebugResources-28:/values/values.xml",
+            "outputFile": "com.example.untitled.app-mergeDebugResources-30:/values/values.xml",
             "map": [
                 {
                     "source": "C:\\Users\\vamsi\\.gradle\\caches\\8.10.2\\transforms\\8720b1ab47866eea7a583d3c6cddc6a4\\transformed\\lifecycle-runtime-2.7.0\\res\\values\\values.xml",

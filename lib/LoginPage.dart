@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled/providers/theme_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -10,12 +11,14 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  bool _obscurePassword = true;
   final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
 
-  final String predefinedUsername = "user123";
-  final String predefinedPassword = "pass123";
+  Future<void> _saveAndNavigate() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('username', _usernameController.text);
+    if (!mounted) return;
+    Navigator.pushNamed(context, '/WelcomeScreen');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +44,13 @@ class _LoginPageState extends State<LoginPage> {
                   'assets/TRAVEL.png',
                   width: 190,
                   height: 120,
+                  errorBuilder: (context, error, stackTrace) {
+                    print('Error loading image: $error');
+                    return const SizedBox(
+                      width: 190,
+                      height: 120,
+                    );
+                  },
                 ),
               ),
               Container(
@@ -62,121 +72,40 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Column(
-                      children: [
-                        Center(
-                          child: Text(
-                            "Welcome!",
-                            style: TextStyle(
-                              fontSize: 30,
-                              color: textColors,
-                            ),
-                          ),
+                    Center(
+                      child: Text(
+                        "Welcome!",
+                        style: TextStyle(
+                          fontSize: 30,
+                          color: textColors,
                         ),
-                        const SizedBox(height: 20),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 50.0),
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "Username",
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  color: textColors,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                      child: TextField(
+                        style: TextStyle(color: textColors),
+                        controller: _usernameController,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          hintText: 'Enter your username',
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 50.0),
-                          child: TextField(
-                            style: TextStyle(color: textColors),
-                            controller: _usernameController,
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: 'Enter your username',
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 50.0),
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              " Password ",
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  color: textColors,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 50.0),
-                          child: TextField(
-                            style: TextStyle(color: textColors),
-                            controller: _passwordController,
-                            obscureText: _obscurePassword,
-                            decoration: InputDecoration(
-                                border: const OutlineInputBorder(),
-                                hintText: 'Enter your password',
-                                suffixIcon: IconButton(
-                                  icon: Icon(_obscurePassword
-                                      ? Icons.visibility
-                                      : Icons.visibility_off),
-                                  onPressed: () {
-                                    setState(() {
-                                      _obscurePassword = !_obscurePassword;
-                                    });
-                                  },
-                                )),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 30,
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            if (_usernameController.text ==
-                                    predefinedUsername &&
-                                _passwordController.text ==
-                                    predefinedPassword) {
-                              Navigator.pushNamed(context, '/MainScreen');
-                            } else {
-                              showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: const Text("Login Failed"),
-                                      content: const Text(
-                                          "Incorrect Username or Password"),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          child: const Text("ok"),
-                                        )
-                                      ],
-                                    );
-                                  });
-                            }
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.green[900],
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 50, vertical: 15),
-                            textStyle: const TextStyle(fontSize: 19),
-                          ),
-                          child: Text(
-                            "Login",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ],
+                      ),
+                    ),
+                    const SizedBox(height: 30),
+                    ElevatedButton(
+                      onPressed: _saveAndNavigate,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green[900],
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 50, vertical: 15),
+                        textStyle: const TextStyle(fontSize: 19),
+                      ),
+                      child: const Text(
+                        "Continue",
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                   ],
                 ),
