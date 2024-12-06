@@ -7,6 +7,7 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled/providers/theme_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -17,12 +18,32 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   List<JournalEntry> journalEntries = [];
+  String username = '';
   int journalCount = 0;
 
   @override
   void initState() {
     super.initState();
     _loadJournalEntries();
+    _loadUsername();
+  }
+
+  Future<void> _loadUsername() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      username = prefs.getString('username') ?? 'User';
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final args = ModalRoute.of(context)?.settings.arguments;
+    if (args is String) {
+      setState(() {
+        username = args;
+      });
+    }
   }
 
   void _toggleTheme() {
@@ -122,6 +143,17 @@ class _MainScreenState extends State<MainScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 const SizedBox(height: 10),
+                Container(
+                  child: SizedBox(
+                    child: Text(
+                      "Hello, $username",
+                      style: TextStyle(color: textColors, fontSize: 20),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
                 Container(
                   height: 150,
                   padding: const EdgeInsets.symmetric(

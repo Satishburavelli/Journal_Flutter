@@ -13,11 +13,13 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _usernameController = TextEditingController();
 
-  Future<void> _saveAndNavigate() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('username', _usernameController.text);
-    if (!mounted) return;
-    Navigator.pushNamed(context, '/WelcomeScreen');
+  void _showMessage(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        duration: const Duration(seconds: 2),
+      ),
+    );
   }
 
   @override
@@ -74,28 +76,54 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     Center(
                       child: Text(
-                        "Welcome!",
+                        "Welcome",
                         style: TextStyle(
+                          fontWeight: FontWeight.bold,
                           fontSize: 30,
                           color: textColors,
                         ),
                       ),
                     ),
                     const SizedBox(height: 20),
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                      child: Text(
+                        "Enter your name:",
+                        style: TextStyle(color: Colors.grey[200], fontSize: 15),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 50.0),
                       child: TextField(
                         style: TextStyle(color: textColors),
                         controller: _usernameController,
                         decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: 'Enter your username',
-                        ),
+                            border: OutlineInputBorder(),
+                            hintText: 'Name',
+                            hintStyle: TextStyle(color: Colors.white30)),
                       ),
                     ),
                     const SizedBox(height: 30),
                     ElevatedButton(
-                      onPressed: _saveAndNavigate,
+                      onPressed: () async {
+                        if (_usernameController.text.trim().isEmpty) {
+                          _showMessage('Please enter your name');
+                        } else {
+                          // Save the username and login state
+                          final prefs = await SharedPreferences.getInstance();
+                          await prefs.setString(
+                              'username', _usernameController.text);
+                          await prefs.setBool('isLoggedIn', true);
+
+                          Navigator.pushNamed(
+                            context,
+                            '/MainScreen',
+                            arguments: _usernameController.text,
+                          );
+                        }
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.green[900],
                         padding: const EdgeInsets.symmetric(
@@ -103,7 +131,7 @@ class _LoginPageState extends State<LoginPage> {
                         textStyle: const TextStyle(fontSize: 19),
                       ),
                       child: const Text(
-                        "Continue",
+                        "Login",
                         style: TextStyle(color: Colors.white),
                       ),
                     ),

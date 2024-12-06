@@ -12,13 +12,13 @@ import 'package:untitled/providers/theme_provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();
-  final username = prefs.getString('username');
+  final isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
 
   runApp(
     ChangeNotifierProvider(
       create: (_) => ThemeProvider(),
       child: TravelJournal(
-        initialRoute: '/LoginPage',
+        initialRoute: isLoggedIn ? '/MainScreen' : '/LoginPage',
       ),
     ),
   );
@@ -47,4 +47,17 @@ class TravelJournal extends StatelessWidget {
       },
     );
   }
+}
+
+// Example logout function
+Future<void> logout(BuildContext context) async {
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.remove('username');
+  await prefs.setBool('isLoggedIn', false);
+
+  Navigator.pushNamedAndRemoveUntil(
+    context,
+    '/LoginPage',
+    (Route<dynamic> route) => false,
+  );
 }

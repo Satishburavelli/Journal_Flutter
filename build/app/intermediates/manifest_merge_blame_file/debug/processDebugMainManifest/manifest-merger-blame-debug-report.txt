@@ -88,7 +88,7 @@
 55        android:debuggable="true"
 56        android:extractNativeLibs="true"
 57        android:icon="@mipmap/ic_launcher"
-58        android:label="untitled" >
+58        android:label="Travel Journal" >
 59        <activity
 60            android:name="com.example.untitled.MainActivity"
 61            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
