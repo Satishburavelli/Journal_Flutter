@@ -31,6 +31,7 @@ class TravelJournal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'My Travel Journal',
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
