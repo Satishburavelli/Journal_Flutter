@@ -6,7 +6,6 @@ import 'package:untitled/MainScreen.dart';
 import 'package:untitled/NewJournal.dart';
 import 'package:untitled/ViewJournal.dart';
 import 'package:untitled/JourneyMap.dart';
-import 'package:untitled/WelcomeScreen.dart';
 import 'package:untitled/providers/theme_provider.dart';
 
 void main() async {
@@ -43,7 +42,6 @@ class TravelJournal extends StatelessWidget {
         '/NewJournal': (context) => NewJournal(),
         '/ViewJournal': (context) => ViewJournal(),
         '/JourneyMap': (context) => JourneyMap(),
-        '/WelcomeScreen': (context) => const WelcomeScreen(),
       },
     );
   }
