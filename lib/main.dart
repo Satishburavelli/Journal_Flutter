@@ -47,16 +47,3 @@ class TravelJournal extends StatelessWidget {
     );
   }
 }
-
-// Example logout function
-Future<void> logout(BuildContext context) async {
-  final prefs = await SharedPreferences.getInstance();
-  await prefs.remove('username');
-  await prefs.setBool('isLoggedIn', false);
-
-  Navigator.pushNamedAndRemoveUntil(
-    context,
-    '/LoginPage',
-    (Route<dynamic> route) => false,
-  );
-}

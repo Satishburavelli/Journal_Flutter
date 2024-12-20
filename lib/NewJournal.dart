@@ -56,7 +56,9 @@ class _NewJournal extends State<NewJournal> {
 
     if (title.isEmpty || content.isEmpty || _images.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Please fill all the fields")),
+        const SnackBar(
+            content: Text(
+                "Please fill all required fields(Title,Description and Image)")),
       );
       return;
     }
@@ -64,37 +66,9 @@ class _NewJournal extends State<NewJournal> {
     await _saveJournalEntry(title, content, _images);
 
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text("JournalSaved")),
+      const SnackBar(content: Text("Journal Saved")),
     );
     Navigator.pushNamed(context, '/MainScreen');
-  }
-
-  Future<List<JournalEntry>> _loadJournalEntries() async {
-    final directory = await getApplicationDocumentsDirectory();
-    final journalFile = File('${directory.path}/journals.json');
-    if (!await journalFile.exists()) return [];
-
-    final String fileContent = await journalFile.readAsString();
-    final List<dynamic> data = jsonDecode(fileContent);
-    return data.map((entry) {
-      List<String> imagePaths =
-          List<String>.from(jsonDecode(entry['imagePaths']));
-      return JournalEntry(
-        title: entry['title'] ?? '',
-        content: entry['content'] ?? '',
-        imagePaths: imagePaths,
-        locationName: entry['location'] ?? '',
-        latitude: entry['latitude'],
-        longitude: entry['longitude'],
-        mood: entry['mood'] ?? '',
-        location: entry['latitude'] != null && entry['longitude'] != null
-            ? LatLng(entry['latitude'], entry['longitude'])
-            : null,
-        date: entry['date'] != null
-            ? DateTime.parse(entry['date'])
-            : DateTime.now(),
-      );
-    }).toList();
   }
 
   Future<void> _saveJournalEntry(
@@ -313,7 +287,7 @@ class _NewJournal extends State<NewJournal> {
                     value: mood,
                     child: Text(
                       mood,
-                      style: TextStyle(color:textColors),
+                      style: TextStyle(color: textColors),
                     ),
                   );
                 }).toList(),
@@ -494,3 +468,4 @@ class _NewJournal extends State<NewJournal> {
     );
   }
 }
+

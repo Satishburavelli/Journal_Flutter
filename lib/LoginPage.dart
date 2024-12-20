@@ -111,7 +111,6 @@ class _LoginPageState extends State<LoginPage> {
                         if (_usernameController.text.trim().isEmpty) {
                           _showMessage('Please enter your name');
                         } else {
-                          // Save the username and login state
                           final prefs = await SharedPreferences.getInstance();
                           await prefs.setString(
                               'username', _usernameController.text);
