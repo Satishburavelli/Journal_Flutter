@@ -105,17 +105,5 @@ class JournalEntry {
     );
   }
 
-  JournalEntry copyWith({String? locationName}) {
-    return JournalEntry(
-      title: title,
-      content: content,
-      imagePaths: imagePaths,
-      latitude: latitude,
-      longitude: longitude,
-      locationName: locationName ?? this.locationName,
-      mood: mood,
-      location: location,
-      date: date,
-    );
-  }
+
 }
