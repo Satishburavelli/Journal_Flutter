@@ -25,7 +25,8 @@ class JournalEntry {
     required this.date,
   });
 
-  static Future<String> getLocationName(LatLng location) async {
+  static Future<String> getLocationName(LatLng location) async
+  {
     try {
       List<Placemark> placemarks = await placemarkFromCoordinates(
         location.latitude,
@@ -104,6 +105,5 @@ class JournalEntry {
           json['date'] != null ? DateTime.parse(json['date']) : DateTime.now(),
     );
   }
-
 
 }
