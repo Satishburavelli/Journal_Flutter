@@ -205,6 +205,7 @@ com.example.untitled:id/right_side = 0x7f07004c
 com.example.untitled:anim/fragment_fast_out_extra_slow_in = 0x7f010000
 com.example.untitled:attr/cameraTargetLat = 0x7f03000b
 com.example.untitled:attr/uiCompass = 0x7f03003c
+com.example.untitled:mipmap/launcher_icon = 0x7f0a0001
 com.example.untitled:attr/cameraTilt = 0x7f03000d
 com.example.untitled:color/androidx_core_secondary_text_default_material_light = 0x7f040001
 com.example.untitled:attr/zOrderOnTop = 0x7f030045

@@ -87,7 +87,7 @@
 54-->[androidx.core:core:1.13.1] C:\Users\vamsi\.gradle\caches\8.10.2\transforms\6ed8ea106e42b0291de4a114cba06d52\transformed\core-1.13.1\AndroidManifest.xml:28:18-86
 55        android:debuggable="true"
 56        android:extractNativeLibs="true"
-57        android:icon="@mipmap/ic_launcher"
+57        android:icon="@mipmap/launcher_icon"
 58        android:label="Travel Journal" >
 59        <activity
 60            android:name="com.example.untitled.MainActivity"

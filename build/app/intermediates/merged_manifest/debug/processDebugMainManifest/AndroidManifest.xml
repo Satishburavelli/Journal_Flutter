@@ -54,7 +54,7 @@
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:debuggable="true"
         android:extractNativeLibs="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/launcher_icon"
         android:label="Travel Journal" >
         <activity
             android:name="com.example.untitled.MainActivity"
