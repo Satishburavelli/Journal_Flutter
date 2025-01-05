@@ -8,7 +8,8 @@ import 'package:untitled/ViewJournal.dart';
 import 'package:untitled/JourneyMap.dart';
 import 'package:untitled/providers/theme_provider.dart';
 
-void main() async {
+void main() async
+{
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();
   final isLoggedIn = prefs.getBool('isLoggedIn') ?? false;

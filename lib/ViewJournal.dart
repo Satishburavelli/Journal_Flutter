@@ -78,14 +78,17 @@ class _ViewJournalState extends State<ViewJournal> {
         return {
           'title': entry.title,
           'content': entry.content,
-          'imagePath': entry.imagePaths,
+          'imagePaths': jsonEncode(entry.imagePaths),
+          'location': entry.locationName,
+          'mood': entry.mood,
+          'date': entry.date.toIso8601String(),
         };
       }).toList();
 
       await journalFile.writeAsString(jsonEncode(updatedData));
       print("Journal Entry Deleted.");
     } catch (e) {
-      print("error deleting the journal");
+      print("Error deleting the journal: $e");
     }
   }
 
@@ -93,11 +96,11 @@ class _ViewJournalState extends State<ViewJournal> {
   Widget build(BuildContext context) {
     final themeMode = Provider.of<ThemeProvider>(context).themeMode;
     final backgroundColor =
-        themeMode == ThemeMode.dark ? Colors.black : Colors.white;
+    themeMode == ThemeMode.dark ? Colors.black : Colors.white;
     final textColors =
-        themeMode == ThemeMode.dark ? Colors.white : Colors.black;
+    themeMode == ThemeMode.dark ? Colors.white : Colors.black;
     final cardColor =
-        themeMode == ThemeMode.dark ? Colors.grey[900] : Colors.grey[600];
+    themeMode == ThemeMode.dark ? Colors.grey[900] : Colors.grey[600];
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -114,97 +117,97 @@ class _ViewJournalState extends State<ViewJournal> {
         child: entries.isEmpty
             ? Center(child: Text("No journals yet"))
             : ListView.builder(
-                itemCount: entries.length,
-                itemBuilder: (context, index) {
-                  final entry = entries[index];
+            itemCount: entries.length,
+            itemBuilder: (context, index) {
+              final entry = entries[index];
 
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => JournalDetail(entry: entry),
-                          ));
-                    },
-                    child: Card(
-                      color: cardColor,
-                      margin: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          if (entry.imagePaths.isNotEmpty)
-                            Container(
-                              width: double.infinity,
-                              height: 200,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: FileImage(File(entry.imagePaths[0])),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => JournalDetail(entry: entry),
+                      ));
+                },
+                child: Card(
+                  color: cardColor,
+                  margin: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (entry.imagePaths.isNotEmpty)
+                        Container(
+                          width: double.infinity,
+                          height: 200,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: FileImage(File(entry.imagePaths[0])),
+                              fit: BoxFit.cover,
                             ),
-                          Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                          ),
+                        ),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
                               children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        entry.title,
-                                        style: TextStyle(
-                                          fontSize: 19,
-                                          color: Colors.green.shade300,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
+                                Expanded(
+                                  child: Text(
+                                    entry.title,
+                                    style: TextStyle(
+                                      fontSize: 19,
+                                      color: Colors.green.shade300,
+                                      fontWeight: FontWeight.bold,
                                     ),
-                                    Text(
-                                      '${entry.date.day}/${entry.date.month}/${entry.date.year}',
-                                      style: TextStyle(
-                                        color: Colors.grey[400],
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ],
+                                  ),
                                 ),
-                                const SizedBox(
-                                  height: 8,
+                                Text(
+                                  '${entry.date.day}/${entry.date.month}/${entry.date.year}',
+                                  style: TextStyle(
+                                    color: Colors.grey[400],
+                                    fontSize: 14,
+                                  ),
                                 ),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                        child: Text(
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                    child: Text(
                                       entry.content.length > 50
                                           ? '${entry.content.length > 50}'
                                           : entry.content,
                                       style: TextStyle(color: Colors.white),
                                     )),
-                                    if (entry.content.length > 50)
-                                      Text(
-                                        'View More....',
-                                        style:
-                                            TextStyle(color: Colors.blue[300]),
-                                      ),
-                                  ],
-                                ),
+                                if (entry.content.length > 50)
+                                  Text(
+                                    'View More....',
+                                    style:
+                                    TextStyle(color: Colors.blue[300]),
+                                  ),
                               ],
                             ),
-                          ),
-                          IconButton(
-                            onPressed: () {
-                              _deleteJournal(index);
-                            },
-                            icon: const Icon(Icons.delete, color: Colors.red),
-                          )
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  );
-                }),
+                      IconButton(
+                        onPressed: () {
+                          _deleteJournal(index);
+                        },
+                        icon: const Icon(Icons.delete, color: Colors.red),
+                      )
+                    ],
+                  ),
+                ),
+              );
+            }),
       ),
     );
   }
